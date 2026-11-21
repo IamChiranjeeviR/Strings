@@ -1,3 +1,4 @@
+package project;
 public class CurrentAccount extends Account {
 
     private static final double OVERDRAFT = -1000;
@@ -6,7 +7,7 @@ public class CurrentAccount extends Account {
         super(accountNumber, accountHolder, balance);
     }
 
-    protected static CurrentAccount createAccount(int accountNumber, String accountHolder, double balance){
+    public static CurrentAccount createAccount(int accountNumber, String accountHolder, double balance){
         return new CurrentAccount(accountNumber, accountHolder, balance);
     }
 

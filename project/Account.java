@@ -1,3 +1,4 @@
+package project;
 abstract class Account{
     private int accountNumber;
     private String accountHolder;
@@ -55,4 +56,12 @@ abstract class Account{
         System.out.println(accountHolder);
     }
 
+    public int getAccountNumber(){
+        return accountNumber;
+    }
+
+    @Override
+    public String toString() {
+        return "Account Holder: " + accountHolder + ", Balance: " + balance;
+    }
 }

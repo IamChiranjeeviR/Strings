@@ -1,3 +1,4 @@
+package project;
 class SavingsAccount extends Account {
 
     private static final double MINIMUM_BALANCE = 500.0;
