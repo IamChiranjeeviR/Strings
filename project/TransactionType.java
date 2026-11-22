@@ -2,5 +2,6 @@ package project;
 
 public enum TransactionType{
     DEPOSIT,
-    WITHDRAW
+    WITHDRAW,
+    TRANSFER
 }

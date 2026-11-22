@@ -9,15 +9,18 @@ class Main{
 
         Customer customer = sbi.getCustomer(103);
         
-        customer.addAccount(SavingsAccount.createAccount(1001, customer.getCustomerName(), 500));
+        customer.addAccount(SavingsAccount.createAccount(1001, customer.getCustomerName(), 3000));
 
-        Account account = customer.findAccount(1001);
+        customer.addAccount(CurrentAccount.createAccount(1002, customer.getCustomerName(), 500));
 
-        account.deposit(3000);
-        account.withdraw(200);
-        account.withdraw(300);
+        Account account1 = customer.findAccount(1001);
+        Account account2 = customer.findAccount(1002);
 
-        account.printTransactionHistory();
+        account1.transfer(account2, 823);
+
+        customer.displayAccounts();
+
+        // account.printTransactionHistory();
 
     }
 }

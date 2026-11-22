@@ -3,6 +3,9 @@ package project;
 import java.util.ArrayList;
 import java.util.List;
 
+import exceptions.InsufficientBalanceException;
+import exceptions.InvalidAccountException;
+
 abstract class Account{
     private int accountNumber;
     private String accountHolder;
@@ -21,7 +24,7 @@ abstract class Account{
 
     private void validateAccountDetails(int accountNumber, String accountHolder, double balance){
         if(accountNumber <= 0 )
-            throw new IllegalArgumentException("Invalid Account Number");
+            throw new InvalidAccountException("Invalid Account Number");
 
         if(accountHolder == null || accountHolder.trim().isEmpty())
             throw new IllegalArgumentException("Invalid Name");
@@ -32,7 +35,7 @@ abstract class Account{
 
     private void validateAmount(double amt){
         if(amt < 0)
-            throw new IllegalArgumentException("Invalid Balance");
+            throw new IllegalArgumentException("Balance should not be less than 0");
     }
 
     //withdraw
@@ -44,7 +47,7 @@ abstract class Account{
             transactions.add(new Transaction(TransactionType.WITHDRAW, amt));
         }
         else
-            throw new IllegalStateException("Insufficient funds");
+            throw new InsufficientBalanceException("Insufficient funds");
     }
 
     protected abstract boolean canWithdraw(double amount);
@@ -55,6 +58,15 @@ abstract class Account{
         this.balance += amt;
 
         transactions.add(new Transaction(TransactionType.DEPOSIT,amt));
+    }
+
+    public void transfer(Account destinationAccount, double amount){
+
+        if(destinationAccount == null)
+            throw new InvalidAccountException("Destination account cannot be null");
+
+        withdraw(amount);
+        destinationAccount.deposit(amount);
     }
 
     protected double getBalance(){
