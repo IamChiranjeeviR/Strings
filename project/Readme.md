@@ -15,6 +15,7 @@
 ✅ Late Binding
 ✅ Upcasting
 
+find . -type f -name "*.class" -delete
 
 
 

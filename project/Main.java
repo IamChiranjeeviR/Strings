@@ -11,7 +11,13 @@ class Main{
         
         customer.addAccount(SavingsAccount.createAccount(1001, customer.getCustomerName(), 500));
 
-        customer.displayAccounts();
+        Account account = customer.findAccount(1001);
+
+        account.deposit(3000);
+        account.withdraw(200);
+        account.withdraw(300);
+
+        account.printTransactionHistory();
 
     }
 }

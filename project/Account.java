@@ -1,8 +1,13 @@
 package project;
+
+import java.util.ArrayList;
+import java.util.List;
+
 abstract class Account{
     private int accountNumber;
     private String accountHolder;
     private double balance;
+    private List<Transaction> transactions;
 
     //Constructor
     protected Account(int accountNumber, String accountHolder, double balance){
@@ -11,6 +16,7 @@ abstract class Account{
         this.accountNumber = accountNumber;
         this.accountHolder = accountHolder;
         this.balance = balance;
+        this.transactions = new ArrayList<>();
     }
 
     private void validateAccountDetails(int accountNumber, String accountHolder, double balance){
@@ -33,8 +39,10 @@ abstract class Account{
     public void withdraw(double amt){
         validateAmount(amt);
             
-        if(canWithdraw(amt))
+        if(canWithdraw(amt)){
             this.balance -= amt;
+            transactions.add(new Transaction(TransactionType.WITHDRAW, amt));
+        }
         else
             throw new IllegalStateException("Insufficient funds");
     }
@@ -45,6 +53,8 @@ abstract class Account{
     public void deposit(double amt){
         validateAmount(amt);
         this.balance += amt;
+
+        transactions.add(new Transaction(TransactionType.DEPOSIT,amt));
     }
 
     protected double getBalance(){
@@ -59,6 +69,13 @@ abstract class Account{
     public int getAccountNumber(){
         return accountNumber;
     }
+
+    public void printTransactionHistory(){
+        for(Transaction transaction: transactions){
+            System.out.println(transaction + "\n");
+        }
+    }
+
 
     @Override
     public String toString() {
