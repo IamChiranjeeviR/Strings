@@ -1,36 +1,43 @@
-package project;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import exceptions.InsufficientBalanceException;
 import exceptions.InvalidAccountException;
+import exceptions.InvalidNameException;
 
 abstract class Account{
     private int accountNumber;
+    private int customerId;
     private String accountHolder;
     private double balance;
     private List<Transaction> transactions;
 
     //Constructor
-    protected Account(int accountNumber, String accountHolder, double balance){
+    protected Account(int accountNumber, int customerId, String accountHolder, double balance){
         validateAccountDetails(accountNumber, accountHolder, balance);
 
         this.accountNumber = accountNumber;
+        this.customerId = customerId;
         this.accountHolder = accountHolder;
         this.balance = balance;
         this.transactions = new ArrayList<>();
     }
+
 
     private void validateAccountDetails(int accountNumber, String accountHolder, double balance){
         if(accountNumber <= 0 )
             throw new InvalidAccountException("Invalid Account Number");
 
         if(accountHolder == null || accountHolder.trim().isEmpty())
-            throw new IllegalArgumentException("Invalid Name");
+            throw new InvalidNameException("Invalid Name");
          
         validateAmount(balance);
         
+    }
+
+    List<Transaction> getList(){
+        return transactions;
     }
 
     private void validateAmount(double amt){
@@ -83,14 +90,12 @@ abstract class Account{
     }
 
     public void printTransactionHistory(){
-        for(Transaction transaction: transactions){
-            System.out.println(transaction + "\n");
-        }
+        Helper.printList(transactions);
     }
 
 
     @Override
     public String toString() {
-        return "Account Holder: " + accountHolder + ", Balance: " + balance;
+        return accountNumber + "," + customerId + "," + accountHolder + "," + balance;
     }
 }

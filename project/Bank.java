@@ -1,36 +1,49 @@
-package project;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Bank {
     private static final String BANK_NAME = "SBI";
-    private List<Customer> customers;
+    private Map<Integer,Customer> customers;
 
     public Bank(){
-        this.customers = new ArrayList<>();
+        this.customers = new HashMap<>();
     }
 
     public void addCustomer(int customerId, String customerName){
-        if(getCustomer(customerId) != null)
-            throw new IllegalArgumentException("Customer already Exist");
+        if(customers.containsKey(customerId)){
+            throw new IllegalArgumentException("Customer Already Exists");
+        }
         
-        customers.add(Customer.createCustomer(customerId, customerName));
+        customers.put(
+            customerId,
+            Customer.createCustomer(customerId, customerName)
+        );
     }
 
-    public void displayCustomers(){
-        for(Customer customer: customers){
-            System.out.println(customer + "\n");
-        }
-    }
 
     public Customer getCustomer(int customerId){
-        for(Customer customer: customers){
-            if(customer.getCustomerId() == customerId)
-            return customer;
-        }
+        return customers.get(customerId);
+    }
 
-        return null;
+    public void saveCustomers(){
+        try{
+
+            BufferedWriter writer = new BufferedWriter(new FileWriter("data/CustomersData.csv"));
+
+            for(Customer customer: customers.values()){
+                writer.write(customer.toString());
+                writer.newLine();
+            }
+
+            writer.close();
+
+        }catch(IOException e){
+            System.out.println(e.getMessage());
+        }
     }
 
     

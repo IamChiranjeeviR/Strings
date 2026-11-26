@@ -1,5 +1,7 @@
-package project;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,7 +10,7 @@ public class Customer {
     private String customerName;
     private List<Account> accounts;
 
-    private Customer(int customerId, String customerName){
+    public Customer(int customerId, String customerName){
 
         validateCustomerDetails(customerId, customerName);
 
@@ -40,9 +42,7 @@ public class Customer {
     }
 
     public void displayAccounts(){
-        for(Account account: accounts){
-            System.out.println(account + "\n");
-        }
+       Helper.printList(accounts);
     }
 
     public String getCustomerName(){
@@ -65,8 +65,45 @@ public class Customer {
 
     @Override 
     public String toString(){
-        return "Customer ID: " + customerId + "\n" + "Name: " + customerName;
+        return customerId + "," + customerName;
     }
 
+    @Override 
+    public boolean equals(Object obj){
+        if(this == obj)
+            return true;
+
+        if(obj == null)
+            return false;
+
+        if(getClass() != obj.getClass())
+            return false;
+
+        Customer other = (Customer) obj;
+
+        return customerId == other.customerId;
+    }
+
+    public void saveAccounts(){
+        try{
+            BufferedWriter writer = new BufferedWriter(new FileWriter("data/AccountsData.csv"));
+
+            for(Account account : accounts){
+                writer.write(account.toString());
+                writer.newLine();
+            }
+            
+            writer.close();
+
+        }
+        catch(IOException e){
+            System.out.println(e.getMessage());
+        }
+    }
+
+    @Override 
+    public int hashCode(){
+        return Integer.hashCode(customerId);
+    }
 
 }

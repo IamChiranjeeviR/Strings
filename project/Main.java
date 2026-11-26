@@ -1,26 +1,22 @@
-package project;
+import java.io.BufferedWriter;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+
 class Main{
     public static void main(String[] args) {
-       Bank sbi = new Bank();
-       sbi.addCustomer(101, "Chiranjeevi");
-       sbi.addCustomer(102, "Jyothi");
-       sbi.addCustomer(103, "Shabeera");
-       sbi.addCustomer(104, "Ram");
 
-        Customer customer = sbi.getCustomer(103);
-        
-        customer.addAccount(SavingsAccount.createAccount(1001, customer.getCustomerName(), 3000));
+        Bank sbi = new Bank();
+        sbi.addCustomer(101, "Chiru");
 
-        customer.addAccount(CurrentAccount.createAccount(1002, customer.getCustomerName(), 500));
+        sbi.saveCustomers();
 
-        Account account1 = customer.findAccount(1001);
-        Account account2 = customer.findAccount(1002);
+        Customer customer1 = sbi.getCustomer(101);
 
-        account1.transfer(account2, 823);
+        customer1.addAccount(SavingsAccount.createAccount(1001, customer1.getCustomerId(), customer1.getCustomerName(),500));
 
-        customer.displayAccounts();
+        customer1.addAccount(CurrentAccount.createAccount(1002, customer1.getCustomerId(), customer1.getCustomerName(),50000));
 
-        // account.printTransactionHistory();
-
+        customer1.saveAccounts();
     }
 }
